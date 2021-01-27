@@ -1,12 +1,17 @@
 const PageList = (argument = "") => {
+  
   const preparePage = () => {
     const cleanedArgument = argument.replace(/\s+/g, "-");
     let articles = "";
+    const pageSize = "&page_size=9"
 
-    const fetchList = (url, argument) => {
+    const fetchList = (url, argument, pageSize) => {
+
       let finalURL = url;
+
       if (argument) {
-        finalURL = url + "?search=" + argument;
+        finalURL = url + "?search=" + argument + pageSize;
+        console.log("Final URL:", finalURL)
       }
 
       fetch(`${finalURL}`)
@@ -17,15 +22,25 @@ const PageList = (argument = "") => {
                   <div class="cardGame">
                     <h1>${article.name}</h1>
                     <h2>${article.released}</h2>
-                    <a href = "#pagedetail/${article.id}">More</a>
+                    <a href = "#pagedetail/${article.id}">${article.id}</a>
                   </div>
                 `;
           });
           document.querySelector(".page-list .articles").innerHTML = articles;
+
+
+          const newFetch = () => {
+            fetchList(response.next)
+            console.log("response next:", response.next)
+          }
+
+          const button = document.getElementById("button").addEventListener("click", newFetch)
+          console.log(button)
+
         });
     };
 
-    fetchList("https://api.rawg.io/api/games", cleanedArgument);
+    fetchList("https://api.rawg.io/api/games", cleanedArgument, pageSize);
   };
 
   const render = () => {
@@ -40,6 +55,8 @@ const PageList = (argument = "") => {
 
   render();
 };
+
+
 
 
 

@@ -26,19 +26,8 @@ const searchBar = document.getElementById("search-bar")
 searchBar.addEventListener("keydown", function(event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        console.log(searchBar.value)
-        PageList(searchBar.value)
+
+        Home(searchBar.value)
     }
 });
-
-
-searchBar.addEventListener("change", function(event) {
-
-        console.log(searchBar.value)
-        PageList(searchBar.value)
-
-});
-
-
-
 
