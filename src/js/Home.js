@@ -20,18 +20,13 @@ const Home = (argument) => {
 
             if (argument === "NEXT") {
                 finalURL = url;
-                console.log("RE FETCH", finalURL)
             }
             if (argument == "") {
                 finalURL = url + futureDates + pageSize;
-                console.log("ELSE", finalURL)
             }
             if (argument !== "NEXT" && argument !== "") {
                 finalURL = url + "?search=" + cleanedArgument + pageSize;
-                console.log("FIRST SEARCH", finalURL)
-                console.log("Fist input", argument)
             }
-
 
             fetch(`${finalURL}`)
 
