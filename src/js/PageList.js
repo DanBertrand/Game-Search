@@ -1,46 +1,42 @@
 const PageList = (argument = "") => {
-  
   const preparePage = () => {
-    const cleanedArgument = argument.replace(/\s+/g, "-");
+    cleanedArgument = argument.replace(/\s+/g, "-");
     let articles = "";
-    const pageSize = "&page_size=9"
+    const pageSize = "&page_size=9";
+    const futureDates = `?dates=${new Date().toISOString().slice(0,10)},${datePlusTenYears()}`;
+    const button = document.getElementById("button")
+    let finalURL;
+    let displayMore = 0
 
-    const fetchList = (url, argument, pageSize) => {
+    button.style.display = "block"
 
+    const fetchList = (url, argument) => {
       let finalURL = url;
-
       if (argument) {
-        finalURL = url + "?search=" + argument + pageSize;
-        console.log("Final URL:", finalURL)
+        finalURL = url + "?search=" + argument;
       }
 
       fetch(`${finalURL}`)
         .then((response) => response.json())
         .then((response) => {
           response.results.forEach((article) => {
+            
             articles += `
                   <div class="cardGame">
-                    <h1>${article.name}</h1>
-                    <h2>${article.released}</h2>
-                    <a href = "#pagedetail/${article.id}">${article.id}</a>
-                  </div>
+                   <a href = "#pagedetail/${article.id}">${article.id}</a>
+                    <div>
+                      <h1>${article.name}</h1>
+                      <h2>${article.released}</h2>
+                      
+                      <img src="${article.background_image}">
+                    </div>
                 `;
           });
           document.querySelector(".page-list .articles").innerHTML = articles;
-
-
-          const newFetch = () => {
-            fetchList(response.next)
-            console.log("response next:", response.next)
-          }
-
-          const button = document.getElementById("button").addEventListener("click", newFetch)
-          console.log(button)
-
         });
     };
 
-    fetchList("https://api.rawg.io/api/games", cleanedArgument, pageSize);
+    fetchList("https://api.rawg.io/api/games", cleanedArgument);
   };
 
   const render = () => {
@@ -55,9 +51,6 @@ const PageList = (argument = "") => {
 
   render();
 };
-
-
-
 
 
 export default PageList;
