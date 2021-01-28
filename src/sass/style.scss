@@ -235,3 +235,21 @@ body {
 #detail-trailer video{
 	margin-left: 20%;
 }
+
+#detail-info .header{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+#detail-info .rating {
+	font-size: 30px;
+	font-weight: bold;
+	color: red;
+}
+
+.detail-bottom{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
