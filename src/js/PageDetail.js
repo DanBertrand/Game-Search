@@ -1,7 +1,7 @@
 const PageDetail = (argument) => {
 
   const preparePage = () => {
-    
+
    const cleanedArgument = argument.replace(/\s+/g, "-");
    document.getElementById("intro").style.display = 'none'
    document.getElementById("button-show-more").style.display = 'none'
@@ -20,9 +20,9 @@ const PageDetail = (argument) => {
           articleDOM.querySelector("h1.title").innerHTML = name;
           articleDOM.querySelector("img").src = background_image;
           articleDOM.querySelector("#detail-info > a").href = website
-          articleDOM.querySelector("#detail-info > a").innerHTML = website;
           articleDOM.querySelector("p.description").innerHTML = description;
           articleDOM.querySelector("#detail-trailer > video").src = clip.clip
+          articleDOM.querySelector("#detail-info > a").innerHTML = "GO to their website";
           articleDOM.querySelector("p.rating").innerHTML = `${rating}/5 - ${ratings_count} votes`;
           articleDOM.querySelector("#detail-info > div.detail-bottom > div:nth-child(4) > div").innerHTML = released;
           articleDOM.querySelector("#detail-info > div.detail-bottom > div:nth-child(1) > div").innerHTML = developers[0].name;
@@ -37,7 +37,18 @@ const PageDetail = (argument) => {
                 document.querySelector("#detail-screenshots").appendChild(newScreen)
               })
             });
-          
+
+            fetch(`https://api.rawg.io/api/games/${id}/suggested?&page_size=4`)
+              .then((response) => response.json())
+              .then((response) => {
+                response.results.forEach((samegame) => {
+                  let samegamelist = document.createElement("a");
+                  samegamelist.innerHTML = samegame.name + " - "
+                  samegamelist.href = `#pagedetail/${samegame.id}`
+                  document.querySelector("#pageContent > section > div > div:nth-child(7) > div").appendChild(samegamelist)
+                })
+              });
+
             stores.forEach((store) => {
                  let newLink = document.createElement("a"); 
                  newLink.innerHTML = store.store.name
@@ -57,8 +68,6 @@ const PageDetail = (argument) => {
               let string = platform.platform.name + ":   " + platform.metascore + "<br>"
               document.querySelector("#detail-info > div.detail-bottom > div:nth-child(2) > div").innerHTML += string
             })
-
-
         });
     };
 
@@ -104,7 +113,7 @@ const PageDetail = (argument) => {
                                       </div>
                                       <div id="detail-trailer">
                                           <h2>TRAILER</h2>
-                                          <video src="" controls></video>
+                                          <video controls></video>
                                       </div>
                                       <div>
                                           <h2>SCREENSHOTS</h2>
@@ -115,7 +124,7 @@ const PageDetail = (argument) => {
                                       </div>
                                       <div>
                                           <h2>SIMILAR GAMES</h2>
-                                          <div></div>
+                                          <div class=></div>
                                       </div>
                                       <p class="clip"></p>
                                   </div>
